@@ -1,28 +1,8 @@
-import {
-  GetStaticPaths,
-  GetStaticProps,
-  GetStaticPropsContext,
-  NextPage,
-} from "next";
-import Image from "next/image";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const detail = await fetch(
-    "https://pokeapi.co/api/v2/pokemon?limit=151&offset=0"
-  ).then((res) => res.json());
-  const paths = detail.results.map((poke: any) => `/ssg-pokemons/${poke.name}`);
-
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async ({
-  params,
-}: GetStaticPropsContext) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const detail = await fetch(
     `https://pokeapi.co/api/v2/pokemon/${params!.pokename}`
   ).then((res) => res.json());
@@ -31,7 +11,9 @@ export const getStaticProps: GetStaticProps = async ({
     `https://pokeapi.co/api/v2/pokemon-species/${params!.pokename}`
   ).then((res) => res.json());
 
-  return { props: { detail, species } };
+  return {
+    props: { detail, species },
+  };
 };
 
 const PokemonDetail: NextPage<{ detail: any; species: any }> = ({
