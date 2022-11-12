@@ -4,10 +4,16 @@ import {
   GetStaticPropsContext,
   NextPage,
 } from "next";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 
+/**
+ * SSGでdynamic routesを使う場合は、GetStaticPathsを使う
+ * pathsに生成するページのパス名の配列を代入する
+ * → ここではポケモン151匹分の詳細ページを生成させたいため、取得したポケモン151匹の英名を入れる
+ * 
+ * 返り値にはpaths配列と、fallbackを渡す　 → fallbackをfalseにすると、存在しないパスが開かれたときに404へリダイレクトさせる（trueの挙動はISRにて説明）
+ */
 export const getStaticPaths: GetStaticPaths = async () => {
   const detail = await fetch(
     "https://pokeapi.co/api/v2/pokemon?limit=151&offset=0"

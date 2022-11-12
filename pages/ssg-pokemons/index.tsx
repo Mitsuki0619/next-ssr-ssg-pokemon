@@ -1,20 +1,26 @@
 import React from "react";
-import useSWR from "swr";
 import { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 
+/**
+ * SSGを行う場合は、GetStaticPropsを使う。
+ * ここでreturnされるpropsの中に取得したデータを入れる。
+ * → getStaticPropsでreturnされたpropsを実際のコンポーネントのpropsに渡すことで、取得したデータをコンポーネントの中で使える
+ */
 export const getStaticProps: GetStaticProps = async () => {
-  const data = await fetch(
+  const pokemons = await fetch(
     "https://pokeapi.co/api/v2/pokemon?limit=151&offset=0"
   ).then((res) => res.json());
   return {
     props: {
-      pokemons: data,
+      pokemons, // pokemonsのデータをpropsに入れる
     },
   };
 };
 
-const Index: NextPage<{ pokemons: any }> = ({ pokemons }) => {
+const Index: NextPage<{ pokemons: any }> = ({
+  pokemons /** getStaticPropsでreturnしたprops（同名） */,
+}) => {
   return (
     <ul>
       {pokemons.results.map((elem: any) => (
