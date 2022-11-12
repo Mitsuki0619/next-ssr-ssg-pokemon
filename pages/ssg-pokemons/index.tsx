@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
+import { PokeJPName } from "../../components/PokeJPName";
 
 /**
  * SSGを行う場合は、GetStaticPropsを使う。
@@ -25,7 +26,12 @@ const Index: NextPage<{ pokemons: any }> = ({
     <ul>
       {pokemons.results.map((elem: any) => (
         <li key={elem.name}>
-          <Link href={`/ssg-pokemons/${elem.name}`}>{elem.name}</Link>
+          <Link href={`/ssg-pokemons/${elem.name}`}>
+            {elem.name} |{" "}
+            <Suspense fallback={"読み込み中"}>
+              <PokeJPName name={elem.name} />
+            </Suspense>
+          </Link>
         </li>
       ))}
     </ul>

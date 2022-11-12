@@ -45,8 +45,6 @@ const PokemonDetail: NextPage<{ detail: any; species: any }> = ({
   species,
 }) => {
   const router = useRouter();
-  console.log(detail);
-  console.log(species);
 
   const { pokename } = router.query;
   return (
