@@ -2,7 +2,9 @@ import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  params /** paramsでdynamic routeのパス名([pokename])を受け取る */,
+}) => {
   const detail = await fetch(
     `https://pokeapi.co/api/v2/pokemon/${params!.pokename}`
   ).then((res) => res.json());
