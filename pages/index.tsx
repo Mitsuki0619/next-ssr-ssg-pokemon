@@ -1,10 +1,21 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import { NextPage } from "next";
+import Link from "next/link";
+import React from "react";
 
-export default function Home() {
+const Home: NextPage = () => {
+  const links = ["ssg-pokemons", "ssr-pokemons"];
+
   return (
     <div>
+      <ul>
+        {links.map((link) => (
+          <li key={link}>
+            <Link href={`/${link}`}>{link}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
-  )
-}
+  );
+};
+
+export default Home;

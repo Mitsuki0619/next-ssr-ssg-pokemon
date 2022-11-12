@@ -1,6 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
+import { PokeJPName } from "../../components/PokeJPName";
 
 /**
  * SSRを行う場合は、GetServerSidePropsを使う。
@@ -17,12 +18,19 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
-const Index: NextPage<{ pokemons: any }> = ({ pokemons /** getServerSidePropsでreturnしたprops（同名） */ }) => {
+const Index: NextPage<{ pokemons: any }> = ({
+  pokemons /** getServerSidePropsでreturnしたprops（同名） */,
+}) => {
   return (
     <ul>
       {pokemons.results.map((elem: any) => (
         <li key={elem.name}>
-          <Link href={`/ssr-pokemons/${elem.name}`}>{elem.name}</Link>
+          <Link href={`/ssr-pokemons/${elem.name}`}>
+            {elem.name} |{" "}
+            <Suspense fallback={"読み込み中"}>
+              <PokeJPName name={elem.name} />
+            </Suspense>
+          </Link>
         </li>
       ))}
     </ul>
